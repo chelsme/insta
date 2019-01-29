@@ -15,6 +15,13 @@ class App extends Component {
   //   console.log(this.state.username, this.state.password, this.state.token)
   // }
 
+  componentDidUpdate(prevState) {
+    // Typical usage (don't forget to compare props):
+    if (this.state.username !== prevState.username) {
+      this.makeFetchRequest()
+    }
+  }
+
   makeFetchRequest() {
     if (this.state.username !== null && this.state.password !== null) {
       fetch('http://localhost:3000/login', {
@@ -34,31 +41,33 @@ class App extends Component {
           this.setState({
             token: response.token
           })
-        }).then(resp => console.log(resp))
-
-      setTimeout(() => {
-        fetch(`http://localhost:3000/users/1`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            "Authorization": `Bearer ${this.state.token}`
-          },
-          body: JSON.stringify({
-            username: this.state.username,
-            password: this.state.password
-          })
         })
-      }, 3000)
+
+      // setTimeout(() => {
+      //   fetch(`http://localhost:3000/users/1`, {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //       "Authorization": `Bearer ${this.state.token}`
+      //     },
+      //     body: JSON.stringify({
+      //       username: this.state.username,
+      //       password: this.state.password
+      //     })
+      //   })
+      // }, 3000)
     }
   }
 
-  login(token) {
+  login(authstate) {
     this.setState({
-      token: token
+      username: authstate.username,
+      password: authstate.password
     })
-    console.log('get logged in now!')
-    this.forceUpdate()
+    // this.makeFetchRequest()
+    console.log('state............', authstate.username, authstate.password, this.state.token)
   }
+
 
   render() {
     return (

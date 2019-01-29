@@ -13,62 +13,22 @@ export default class AuthScreen extends React.Component {
         }
     }
 
-    makeFetchRequest() {
-        if (this.state.username !== null && this.state.password !== null) {
-            fetch('http://localhost:3000/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    username: this.state.username,
-                    password: this.state.password
-                })
-            })
-                .then(response => response.json())
-                .then(response => {
-                    // localStorage.setItem('app-token', response.token)
-                    // localStorage.getItem('app-token')
-                    console.log(response)
-                    this.setState({
-                        token: response.token
-                    })
-                })
-
-            // setTimeout(() => {
-            //   fetch('http://localhost:3000/users/1', {
-            //     method: 'POST',
-            //     headers: {
-            //       'Content-Type': 'application/json',
-            //       "Authorization": `Bearer ${this.state.token}`
-            //     },
-            //     body: JSON.stringify({
-            //       username: 'Guy',
-            //       password: 'hi'
-            //     })
-            //   })
-            // }, 3000)
-        }
-    }
-
     handleChange(event) {
-        // console.log(event.target.name)
         this.setState({
             [event.target.name]: event.target.value
         })
-        console.log(this.state)
     }
 
     handleSubmit(event) {
         event.preventDefault()
-        this.makeFetchRequest()
-        if (this.state.token !== null) {
-            this.props.login(this.state.token)
-        }
+        this.props.login(this.state)
+        this.setState({
+            username: null,
+            password: null
+        })
     }
 
     render() {
-        console.log(this.state)
         return (
             <div>
                 <h1>myInsta</h1>
