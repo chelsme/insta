@@ -8,15 +8,11 @@ class App extends Component {
   state = {
     token: null,
     username: null,
-    password: null
+    password: null,
+    loggedIn: false
   }
 
-  // componentDidMount() {
-  //   console.log(this.state.username, this.state.password, this.state.token)
-  // }
-
   componentDidUpdate(prevState) {
-    // Typical usage (don't forget to compare props):
     if (this.state.username !== prevState.username) {
       this.makeFetchRequest()
     }
@@ -42,7 +38,12 @@ class App extends Component {
             token: response.token
           })
         })
+      // .catch(() => {
+      //   alert('invalid credentials##$#$#$#$$')
+      // })
 
+
+      // this would be to update data
       // setTimeout(() => {
       //   fetch(`http://localhost:3000/users/1`, {
       //     method: 'POST',
@@ -62,17 +63,16 @@ class App extends Component {
   login(authstate) {
     this.setState({
       username: authstate.username,
-      password: authstate.password
+      password: authstate.password,
+      loggedIn: true
     })
-    // this.makeFetchRequest()
-    console.log('state............', authstate.username, authstate.password, this.state.token)
   }
 
 
   render() {
     return (
       <div className="App">
-        {this.state.token ? <HomeScreen /> : <AuthScreen login={(token) => this.login(token)} />}
+        {this.state.loggedIn ? <HomeScreen user={this.state.username} /> : <AuthScreen login={(token) => this.login(token)} />}
       </div>
     );
   }

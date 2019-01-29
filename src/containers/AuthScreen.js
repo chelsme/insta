@@ -9,7 +9,7 @@ export default class AuthScreen extends React.Component {
             name: null,
             username: null,
             password: null,
-            passwordV: null,
+            passwordV: null
         }
     }
 
@@ -25,6 +25,34 @@ export default class AuthScreen extends React.Component {
         this.setState({
             username: null,
             password: null
+        })
+    }
+
+    signup(event) {
+        event.preventDefault()
+        console.log(this.state)
+        if (this.state.name !== null && this.state.username !== null && this.state.password !== null && this.state.password === this.state.passwordV)
+            console.log("it's working")
+        fetch('http://localhost:3000/users', {
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify({
+                fullname: this.state.name,
+                username: this.state.username,
+                password: this.state.password,
+                password_confirmation: this.state.passwordV
+            }), // data can be `string` or {object}!
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(resp => resp.json())
+            .then(alert(`${this.state.name} has been invited to your party.`))
+
+        this.props.login(this.state)
+        this.setState({
+            username: null,
+            password: null,
+            passwordV: null
         })
     }
 
@@ -48,7 +76,7 @@ export default class AuthScreen extends React.Component {
                     <input type='text' placeholder='Password' name='password' onChange={(event) => this.handleChange(event)}></input>
                     <input type='text' placeholder='Password' name='passwordV' onChange={(event) => this.handleChange(event)
                     }></input >
-                    <button type='submit' onSubmit={() => console.log('submitted')}>Submit</button>
+                    <button type='submit' onClick={(event) => this.signup(event)}>Submit</button>
                 </form >
             </div >
         )
