@@ -1,8 +1,9 @@
 import React from 'react';
+import Posts from '../components/Posts'
 
 export default class HomeScreen extends React.Component {
     componentDidMount() {
-        console.log('You can do this!')
+        // console.log(this.props)
     }
 
     render() {
@@ -10,9 +11,10 @@ export default class HomeScreen extends React.Component {
             <div>
                 <h1>myInsta</h1>
                 <p>You got this, I promise!</p>
+                <button onClick={this.props.logout}>Logout</button>
 
-                <h2>{this.props.user} logged in!</h2>
-
+                <h2>{this.props.username} logged in!</h2>
+                <Posts username={this.props.username} />
             </div>
         )
     }

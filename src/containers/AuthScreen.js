@@ -30,23 +30,23 @@ export default class AuthScreen extends React.Component {
 
     signup(event) {
         event.preventDefault()
-        console.log(this.state)
+        // console.log(this.state)
         if (this.state.name !== null && this.state.username !== null && this.state.password !== null && this.state.password === this.state.passwordV)
-            console.log("it's working")
-        fetch('http://localhost:3000/users', {
-            method: 'POST', // or 'PUT'
-            body: JSON.stringify({
-                fullname: this.state.name,
-                username: this.state.username,
-                password: this.state.password,
-                password_confirmation: this.state.passwordV
-            }), // data can be `string` or {object}!
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(resp => resp.json())
-            .then(alert(`${this.state.name} has been invited to your party.`))
+            // console.log("it's working")
+            fetch('http://localhost:3000/users', {
+                method: 'POST', // or 'PUT'
+                body: JSON.stringify({
+                    fullname: this.state.name,
+                    username: this.state.username,
+                    password: this.state.password,
+                    password_confirmation: this.state.passwordV
+                }), // data can be `string` or {object}!
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(resp => resp.json())
+                .then(alert(`${this.state.name} has been invited to your party.`))
 
         this.props.login(this.state)
         this.setState({
@@ -54,6 +54,7 @@ export default class AuthScreen extends React.Component {
             password: null,
             passwordV: null
         })
+        this.forceUpdate()
     }
 
     render() {

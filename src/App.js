@@ -19,7 +19,8 @@ class App extends Component {
   }
 
   makeFetchRequest() {
-    if (this.state.username !== null && this.state.password !== null) {
+    console.log(this.state)
+    if (this.state.username !== null && this.state.password !== null && this.state.token == undefined) {
       fetch('http://localhost:3000/login', {
         method: 'POST',
         headers: {
@@ -32,39 +33,61 @@ class App extends Component {
       })
         .then(response => response.json())
         .then(response => {
-          // localStorage.setItem('app-token', response.token)
-          // localStorage.getItem('app-token')
+          console.log('tokentokentoken', this.state.token)
+          localStorage.setItem('app-token', response.token)
+          let t = localStorage.getItem('app-token')
           this.setState({
-            token: response.token
+            token: t
           })
         })
-      // .catch(() => {
-      //   alert('invalid credentials##$#$#$#$$')
-      // })
-
-
-      // this would be to update data
-      // setTimeout(() => {
-      //   fetch(`http://localhost:3000/users/1`, {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //       "Authorization": `Bearer ${this.state.token}`
-      //     },
-      //     body: JSON.stringify({
-      //       username: this.state.username,
-      //       password: this.state.password
-      //     })
-      //   })
-      // }, 3000)
+        .then(() => {
+          if (localStorage.getItem('app-token') !== undefined && localStorage.getItem('app-token') !== 'undefined') {
+            this.setState({
+              loggedIn: true
+            })
+          } else {
+            alert('Incorrect Username or Password')
+          }
+        })
     }
+
+
+    //   // this would be to update data
+    //   // setTimeout(() => {
+    //   //   fetch(`http://localhost:3000/users/1`, {
+    //   //     method: 'POST',
+    //   //     headers: {
+    //   //       'Content-Type': 'application/json',
+    //   //       "Authorization": `Bearer ${this.state.token}`
+    //   //     },
+    //   //     body: JSON.stringify({
+    //   //       username: this.state.username,
+    //   //       password: this.state.password
+    //   //     })
+    //   //   })
+    //   // }, 3000)
+    // }
   }
 
   login(authstate) {
     this.setState({
       username: authstate.username,
       password: authstate.password,
-      loggedIn: true
+      // loggedIn: true
+    })
+    // localStorage.setItem('login', 'yay tostitos!');
+    // let y = localStorage.getItem('login');
+    console.log(this.state.token)
+  }
+
+
+  // bind 'this' when passing down function to access parent's this' when passed back up
+  logout() {
+    this.setState({
+      token: null,
+      username: null,
+      password: null,
+      loggedIn: false
     })
   }
 
@@ -72,7 +95,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {this.state.loggedIn ? <HomeScreen user={this.state.username} /> : <AuthScreen login={(token) => this.login(token)} />}
+        {this.state.loggedIn ? <HomeScreen username={this.state.username} logout={this.logout.bind(this)} /> : <AuthScreen login={(token) => this.login(token)} />}
       </div>
     );
   }

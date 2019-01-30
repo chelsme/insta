@@ -30,3 +30,15 @@
     transform: rotate(360deg);
   }
 }
+
+#posts {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.postCard img {
+  width: 400px;
+  height: 265px;
+}
