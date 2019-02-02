@@ -9,17 +9,17 @@ class App extends Component {
     token: null,
     username: null,
     password: null,
-    loggedIn: false
+    loggedIn: false,
+    user: null
   }
 
   componentDidUpdate(prevState) {
     if (this.state.username !== prevState.username) {
-      this.makeFetchRequest()
+      this.loginRequest()
     }
   }
 
-  makeFetchRequest() {
-    console.log(this.state)
+  loginRequest() {
     if (this.state.username !== null && this.state.password !== null && this.state.token == undefined) {
       fetch('http://localhost:3000/login', {
         method: 'POST',
@@ -33,7 +33,6 @@ class App extends Component {
       })
         .then(response => response.json())
         .then(response => {
-          console.log('tokentokentoken', this.state.token)
           localStorage.setItem('app-token', response.token)
           let t = localStorage.getItem('app-token')
           this.setState({
@@ -45,12 +44,21 @@ class App extends Component {
             this.setState({
               loggedIn: true
             })
+            fetch('http://localhost:3000/users')
+              .then(resp => resp.json())
+              .then(data => {
+                let currentUser = data.filter((user) => {
+                  return user.username === this.state.username
+                })
+                this.setState({
+                  user: currentUser[0]
+                })
+              })
           } else {
             alert('Incorrect Username or Password')
           }
         })
     }
-
 
     //   // this would be to update data
     //   // setTimeout(() => {
@@ -73,13 +81,8 @@ class App extends Component {
     this.setState({
       username: authstate.username,
       password: authstate.password,
-      // loggedIn: true
     })
-    // localStorage.setItem('login', 'yay tostitos!');
-    // let y = localStorage.getItem('login');
-    console.log(this.state.token)
   }
-
 
   // bind 'this' when passing down function to access parent's this' when passed back up
   logout() {
@@ -91,11 +94,19 @@ class App extends Component {
     })
   }
 
+  updateBio(bio) {
+    this.setState(prevState => ({
+      user: {
+        ...prevState.user,
+        bio: bio
+      }
+    }))
+  }
 
   render() {
     return (
       <div className="App">
-        {this.state.loggedIn ? <HomeScreen username={this.state.username} logout={this.logout.bind(this)} /> : <AuthScreen login={(token) => this.login(token)} />}
+        {this.state.loggedIn ? <HomeScreen user={this.state.user} logout={this.logout.bind(this)} updateBio={(bio) => this.updateBio(bio)} /> : <AuthScreen login={(token) => this.login(token)} />}
       </div>
     );
   }

@@ -38,6 +38,16 @@
   flex-wrap: wrap;
 }
 
+.postCard {
+  border: #282c34;
+  border-style: solid;
+  border-width: medium;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
 .postCard img {
   width: 400px;
   height: 265px;
