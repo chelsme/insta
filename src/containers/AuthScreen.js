@@ -30,9 +30,7 @@ export default class AuthScreen extends React.Component {
 
     signup(event) {
         event.preventDefault()
-        // console.log(this.state)
         if (this.state.name !== null && this.state.username !== null && this.state.password !== null && this.state.password === this.state.passwordV)
-            // console.log("it's working")
             fetch('http://localhost:3000/users', {
                 method: 'POST', // or 'PUT'
                 body: JSON.stringify({

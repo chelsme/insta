@@ -31,6 +31,12 @@
   }
 }
 
+.falink {
+  font-size: 40px !important;
+  color: black;
+  margin: 5px;
+}
+
 #posts {
   display: flex;
   flex-direction: row;
@@ -48,7 +54,13 @@
   justify-content: space-around;
 }
 
-.postCard img {
-  width: 400px;
-  height: 265px;
+.postImg {
+  width: 310px;
+  height: 200px;
+}
+
+.avatar {
+  border-radius: 100%;
+  width: 50px;
+  height: 50px;
 }

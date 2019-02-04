@@ -1,34 +1,31 @@
 import React from 'react';
 
-export default class Posts extends React.Component {
+export default class Post extends React.Component {
     state = {
         posts: null
     }
 
-    componentDidMount() {
-        this.makeRemoteRequest()
-    }
+    // componentDidMount() {
+    //     this.makeRemoteRequest()
+    // }
 
-    makeRemoteRequest() {
-        fetch('http://localhost:3000/posts')
-            .then(resp => resp.json())
-            .then(data => {
-                console.log('data data data', data)
-                let posts = data.filter((post) => {
-                    console.log('post.user_id', post.user_id, 'this.props.user.id', this.props.user.id)
-                    return post.user_id === this.props.user.id
-                })
-                this.setState({
-                    posts: posts
-                })
-            })
-    }
+    // makeRemoteRequest() {
+    //     fetch('http://localhost:3000/posts')
+    //         .then(resp => resp.json())
+    //         .then(data => {
+    //             let posts = data.filter((post) => {
+    //                 return post.user_id !== this.props.user.id
+    //             })
+    //             this.setState({
+    //                 posts: posts
+    //             })
+    //         })
+    // }
 
     likePost(post, status) {
         let like = post.likes.find((like) => {
             return this.props.user.id === like.user_id
         })
-        console.log(like)
         status == 'like' ?
             fetch('http://localhost:3000/likes', {
                 method: 'POST', // or 'PUT'
@@ -40,22 +37,27 @@ export default class Posts extends React.Component {
                     'Content-Type': 'application/json'
                 }
             })
-                .then(() => this.makeRemoteRequest())
+                .then(() => this.props.mRR(post))
             :
             fetch(`http://localhost:3000/likes/${like.id}`, {
                 method: 'DELETE', // or 'PUT'
             })
-                .then(() => this.makeRemoteRequest())
+                .then(() => this.props.mRR(post))
     }
 
 
     render() {
         return (
             <div id='posts'>
-                {this.state.posts ? this.state.posts.map((post, index) => {
-                    console.log(post.id)
+                {this.props.posts ? this.props.posts.map((post, index) => {
                     return <div key={index} className='postCard' style={{ margin: '10px' }}>
-                        <img src={post.image} alt='blurb' />
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                            {post.user.avatar ? <img className='avatar' src={post.user.avatar} alt='avatar' /> : <img className='avatar' src='http://visualoop.com/wp-content/themes/visualoop/img/there-is-no-picture-for-this-user2.png' alt='avatar' />}
+                            &nbsp;&nbsp;
+                            <h2>{post.user.username}</h2>
+                        </div>
+                        <img className='postImg' src={post.image} alt='blurb' />
+                        <h3>{post.caption}</h3>
                         <span style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
                             {post.likes.length == 1 ? <span>{post.likes.length} like</span> : <span>{post.likes.length} likes</span>}
                             {post.comments.length == 1 ? <span>{post.comments.length} comment</span> : <span>{post.comments.length} comments</span>}

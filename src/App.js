@@ -1,10 +1,18 @@
-import React, { Component } from 'react';
+import React from "react";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 // import logo from './logo.svg';
 import './App.css';
 import AuthScreen from './containers/AuthScreen'
 import HomeScreen from './containers/HomeScreen'
+import ProfileScreen from './containers/ProfileScreen'
 
-class App extends Component {
+const Index = () => <h2>Home</h2>;
+const About = () => <h2>About</h2>;
+const Users = () => <h2>Users</h2>;
+
+
+
+export default class AppRouter extends React.Component {
   state = {
     token: null,
     username: null,
@@ -103,13 +111,40 @@ class App extends Component {
     }))
   }
 
+  newPost() {
+    alert('Create a new post.')
+  }
+
   render() {
     return (
-      <div className="App">
-        {this.state.loggedIn ? <HomeScreen user={this.state.user} logout={this.logout.bind(this)} updateBio={(bio) => this.updateBio(bio)} /> : <AuthScreen login={(token) => this.login(token)} />}
-      </div>
-    );
+      <Router>
+        <div className="App">
+          {this.state.loggedIn ?
+            <nav>
+              <div>
+                <span>
+                  <Link to="/"><i className="fa fa-home falink"></i></Link>
+                </span>
+                <span>
+                  <Link to="/profile/"><i className="fa fa-user falink"></i></Link>
+                </span>
+                <span>
+                  <i className="fa fa-plus falink" onClick={() => this.newPost()} />
+                </span>
+                <span>
+                  <i className="fa fa-sign-out falink" onClick={() => this.logout()} />
+                </span>
+              </div>
+            </nav>
+            : null}
+
+          <Switch>
+            {this.state.loggedIn ? <Route exact path="/" render={(props) => <HomeScreen {...props} user={this.state.user} logout={this.logout.bind(this)} updateBio={(bio) => this.updateBio(bio)} />} /> : <Route exact path="/" render={(props) => <AuthScreen {...props} login={(token) => this.login(token)} />} />}
+
+            {this.state.loggedIn ? <Route path="/profile/" render={(props) => <ProfileScreen {...props} user={this.state.user} logout={this.logout.bind(this)} updateBio={(bio) => this.updateBio(bio)} />} /> : <Route exact path="/profile/" render={(props) => <AuthScreen {...props} login={(token) => this.login(token)} />} />}
+          </Switch>
+        </div>
+      </Router>
+    )
   }
 }
-
-export default App;
