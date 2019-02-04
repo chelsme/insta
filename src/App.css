@@ -31,6 +31,22 @@
   }
 }
 
+#auth h2 {
+  text-decoration-line: underline;
+}
+
+#auth form {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  margin: auto;
+}
+
+#auth form input, #auth form button {
+  padding: 10px;
+  margin: 5px;
+}
+
 .falink {
   font-size: 40px !important;
   color: black;

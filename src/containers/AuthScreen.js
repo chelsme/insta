@@ -9,9 +9,26 @@ export default class AuthScreen extends React.Component {
             name: null,
             username: null,
             password: null,
-            passwordV: null
+            passwordV: null,
+            loginShow: false,
+            signUpShow: false
         }
     }
+
+    clickHandler(event) {
+        if (event.target.innerText.toLowerCase() == 'login') {
+            this.setState({
+                loginShow: !this.state.loginShow,
+                signUpShow: false
+            })
+        } else if (event.target.innerText.toLowerCase() == 'sign up') {
+            this.setState({
+                loginShow: false,
+                signUpShow: !this.state.signUpShow
+            })
+        }
+    }
+
 
     handleChange(event) {
         this.setState({
@@ -60,19 +77,19 @@ export default class AuthScreen extends React.Component {
 
     render() {
         return (
-            <div>
+            <div id='auth'>
                 <h1>myInsta</h1>
                 <p>You got this, I promise!</p>
 
-                <h2>Login:</h2>
-                <form>
+                <h2 onClick={(event) => this.clickHandler(event)}>Login</h2>
+                <form style={{ display: this.state.loginShow ? 'flex' : 'none' }}>
                     <input type='text' placeholder='Username' name='username' onChange={(event) => this.handleChange(event)}></input>
                     <input type='password' placeholder='Password' name='password' onChange={(event) => this.handleChange(event)}></input>
                     <button type='submit' onClick={(event) => this.handleSubmit(event)}>Submit</button>
                 </form>
 
-                <h2>Sign Up:</h2>
-                <form>
+                <h2 onClick={(event) => this.clickHandler(event)}>Sign Up</h2>
+                <form style={{ display: this.state.signUpShow ? 'flex' : 'none' }}>
                     <input type='text' placeholder='Name' name='name' onChange={(event) => this.handleChange(event)}></input>
                     <input type='text' placeholder='Username' name='username' onChange={(event) => this.handleChange(event)}></input>
                     <input type='password' placeholder='Password' name='password' onChange={(event) => this.handleChange(event)}></input>

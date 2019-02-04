@@ -5,23 +5,6 @@ export default class Post extends React.Component {
         posts: null
     }
 
-    // componentDidMount() {
-    //     this.makeRemoteRequest()
-    // }
-
-    // makeRemoteRequest() {
-    //     fetch('http://localhost:3000/posts')
-    //         .then(resp => resp.json())
-    //         .then(data => {
-    //             let posts = data.filter((post) => {
-    //                 return post.user_id !== this.props.user.id
-    //             })
-    //             this.setState({
-    //                 posts: posts
-    //             })
-    //         })
-    // }
-
     likePost(post, status) {
         let like = post.likes.find((like) => {
             return this.props.user.id === like.user_id
@@ -51,11 +34,14 @@ export default class Post extends React.Component {
             <div id='posts'>
                 {this.props.posts ? this.props.posts.map((post, index) => {
                     return <div key={index} className='postCard' style={{ margin: '10px' }}>
-                        <div style={{ display: 'flex', flexDirection: 'row' }}>
-                            {post.user.avatar ? <img className='avatar' src={post.user.avatar} alt='avatar' /> : <img className='avatar' src='http://visualoop.com/wp-content/themes/visualoop/img/there-is-no-picture-for-this-user2.png' alt='avatar' />}
-                            &nbsp;&nbsp;
+                        {post.user_id !== this.props.user.id ?
+                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                {post.user.avatar ? <img className='avatar' src={post.user.avatar} alt='avatar' /> : <img className='avatar' src='http://visualoop.com/wp-content/themes/visualoop/img/there-is-no-picture-for-this-user2.png' alt='avatar' />}
+                                &nbsp;&nbsp;
                             <h2>{post.user.username}</h2>
-                        </div>
+                            </div>
+                            : null
+                        }
                         <img className='postImg' src={post.image} alt='blurb' />
                         <h3>{post.caption}</h3>
                         <span style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>

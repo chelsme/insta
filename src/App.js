@@ -6,12 +6,6 @@ import AuthScreen from './containers/AuthScreen'
 import HomeScreen from './containers/HomeScreen'
 import ProfileScreen from './containers/ProfileScreen'
 
-const Index = () => <h2>Home</h2>;
-const About = () => <h2>About</h2>;
-const Users = () => <h2>Users</h2>;
-
-
-
 export default class AppRouter extends React.Component {
   state = {
     token: null,
@@ -67,22 +61,6 @@ export default class AppRouter extends React.Component {
           }
         })
     }
-
-    //   // this would be to update data
-    //   // setTimeout(() => {
-    //   //   fetch(`http://localhost:3000/users/1`, {
-    //   //     method: 'POST',
-    //   //     headers: {
-    //   //       'Content-Type': 'application/json',
-    //   //       "Authorization": `Bearer ${this.state.token}`
-    //   //     },
-    //   //     body: JSON.stringify({
-    //   //       username: this.state.username,
-    //   //       password: this.state.password
-    //   //     })
-    //   //   })
-    //   // }, 3000)
-    // }
   }
 
   login(authstate) {

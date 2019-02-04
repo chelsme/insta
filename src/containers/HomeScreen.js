@@ -38,9 +38,7 @@ export default class HomeScreen extends React.Component {
                     <textarea style={{ display: this.state.showUpdateBio ? 'flex' : 'none', margin: 'auto' }} placeholder='Bio' name='bio' onChange={(event) => this.handleChange(event)} />
                     <button style={{ display: this.state.showUpdateBio ? 'flex' : 'none', margin: 'auto' }} type='submit' onClick={(event) => this.handleSubmit(event)}>Submit</button>
                 </form>
-                {/* <p><i className="fa fa-sign-out falink" onClick={this.props.logout} /></p> */}
-
-                <h2>{this.props.user ? this.props.user.username : null} logged in!</h2>
+                <h2>Welcome, {this.props.user ? this.props.user.username : null}!</h2>
                 <Post user={this.props.user} posts={this.state.posts} mRR={(post) => this.makeRemoteRequest(post)} />
             </div>
         )
