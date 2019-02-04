@@ -28,6 +28,13 @@ export default class Post extends React.Component {
                 .then(() => this.props.mRR(post))
     }
 
+    showComments(post) {
+        let comments = []
+        post.comments.map((comment) => {
+            comments.push(comment.text)
+        })
+        alert(comments)
+    }
 
     render() {
         return (
@@ -46,7 +53,7 @@ export default class Post extends React.Component {
                         <h3>{post.caption}</h3>
                         <span style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
                             {post.likes.length == 1 ? <span>{post.likes.length} like</span> : <span>{post.likes.length} likes</span>}
-                            {post.comments.length == 1 ? <span>{post.comments.length} comment</span> : <span>{post.comments.length} comments</span>}
+                            {post.comments.length == 1 ? <span onClick={() => this.showComments(post)}>{post.comments.length} comment</span> : <span onClick={() => this.showComments(post)}>{post.comments.length} comments</span>}
                             <i className="fa fa-heart" onClick={
                                 post.likes.find((like) => { return like.user_id === this.props.user.id }) ? () => this.likePost(post, 'dislike') : () => this.likePost(post, 'like')
                             } style={post.likes.find((like) => { return like.user_id === this.props.user.id }) ? { color: 'red' } : { color: 'black' }}></i>
